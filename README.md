@@ -1,48 +1,37 @@
-# Abandoned Baby Scanner
+# Abandoned Baby EMA Support/Resistance Scanner V2
 
-Scans stocks for the **Bullish** and **Bearish Abandoned Baby** candlestick patterns,
-filtered by a support/resistance test against an EMA (default 200-period).
+The scanner now treats the selected EMA as a real support/resistance zone, not merely a trend filter.
 
-## Files
+## Bullish
+- D1 long red
+- D2 doji
+- D2 High < D1 Low
+- D3 long green
+- D3 Low > D2 High
+- D3 Close > D1 Open
+- EMA interacts with the pattern support area
+- D3 closes above EMA
+- Optional EMA rising filter
 
-- `scanner_core.py` — the tested pattern-detection engine (shared by both tools below).
-- `streamlit_app.py` — browser-based app with buttons to switch between Bullish / Bearish / Both. **Use this for Streamlit Cloud.**
-- `abandoned_baby_scanner.py` — command-line tool, also has an optional Tkinter desktop GUI (`--gui`, needs a local display, won't work on Streamlit Cloud).
-- `requirements.txt` — dependencies for `pip install -r requirements.txt`.
+## Bearish
+- D1 long green
+- D2 doji
+- D2 Low > D1 High
+- D3 long red
+- D3 High < D2 Low
+- D3 Close < D1 Open
+- EMA interacts with the pattern resistance area
+- D3 closes below EMA
+- Optional EMA falling filter
 
-## Run locally
+## Adjustable
+- Pattern direction
+- Timeframe
+- EMA length: 20/50/100/200/etc.
+- EMA S/R touch tolerance
+- Doji threshold
+- Long candle threshold
+- EMA slope requirement
+- Historical days
 
-```bash
-pip install -r requirements.txt
-
-# Web app
-streamlit run streamlit_app.py
-
-# Command line
-python abandoned_baby_scanner.py --tickers RELIANCE TCS INFY --market NSE --pattern bullish
-
-# Desktop GUI (needs a display, not for servers/Cloud)
-python abandoned_baby_scanner.py --gui
-```
-
-## Deploy to Streamlit Community Cloud
-
-1. Push this repo to GitHub.
-2. Go to [share.streamlit.io](https://share.streamlit.io) → **New app**.
-3. Pick your repo/branch, set **Main file path** to `streamlit_app.py`.
-4. Deploy. The `requirements.txt` in the repo root is picked up automatically.
-
-## Pattern definitions
-
-**Bullish Abandoned Baby**
-1. Day 1 — long red/black candle
-2. Day 2 — doji that gaps fully below Day 1's low
-3. Day 3 — long green/white candle that gaps fully above Day 2's high **and closes above Day 1's open**
-
-**Bearish Abandoned Baby** (mirror image)
-1. Day 1 — long green/white candle
-2. Day 2 — doji that gaps fully above Day 1's high
-3. Day 3 — long red/black candle that gaps fully below Day 2's low **and closes below Day 1's open**
-
-**EMA filter**: the doji must form at/near the EMA (support for bullish, resistance for bearish),
-and Day 3 must close back through it — so only reversals happening at that EMA level get flagged.
+Put Angel One credentials in Streamlit Secrets, never in GitHub.
