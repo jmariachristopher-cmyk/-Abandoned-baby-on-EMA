@@ -70,10 +70,10 @@ class AngelOneClient:
             )
 
         return cls(
-            st.secrets["ANGEL_API_KEY"],
-            st.secrets["ANGEL_CLIENT_ID"],
-            st.secrets["ANGEL_PIN"],
-            st.secrets["ANGEL_TOTP_SECRET"],
+            st.secrets["CESsu0mY"],
+            st.secrets["M103357"],
+            st.secrets["3559"],
+            st.secrets["3SZKM4RIU4INSZCX6T3PT4FA5Y"],
         )
 
     def _load_instrument_master(self):
